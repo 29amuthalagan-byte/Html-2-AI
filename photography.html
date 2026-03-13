@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AURA | Photography</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@200&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root { --accent: #8c7e6d; }
+        body { margin: 0; background: #000; color: white; overflow-x: hidden; font-family: 'Inter', sans-serif; }
+       
+        /* Fixed Background */
+        .bg-container { position: fixed; top: 0; left: 0; width: 115%; height: 115%; z-index: -1; }
+        .bg-container img { width: 100%; height: 100%; object-fit: cover; opacity: 0.3; filter: brightness(0.5); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent, #000); z-index: -1; }
+
+
+        /* Navbar */
+        .navbar { position: fixed; top: 0; width: 100%; padding: 40px; display: flex; justify-content: space-between; z-index: 1000; box-sizing: border-box; }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; letter-spacing: 5px; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 30px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: white; text-decoration: none; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.6; transition: 0.4s; }
+
+
+        .page-header { padding: 180px 0 80px; text-align: center; }
+        h1.big-title { font-family: 'Cormorant Garamond', serif; font-size: 8.5vw; font-weight: 300; text-transform: uppercase; letter-spacing: 20px; margin: 0; }
+        .char { display: inline-block; opacity: 0; transform: translateY(40px); }
+
+
+        /* Gallery Grid */
+        .gallery-container { padding: 0 5%; width: 100%; box-sizing: border-box; }
+        .row-top { display: flex; justify-content: space-between; margin-bottom: 100px; }
+        .row-bottom { display: flex; justify-content: space-between; gap: 50px; }
+       
+        .gallery-item { opacity: 0; transform: translateY(60px); width: 30%; }
+        .gallery-item.wide { width: 45%; }
+        .gallery-item img { width: 100%; border: 1px solid rgba(255,255,255,0.05); display: block; }
+        .item-caption { margin-top: 15px; color: var(--accent); font-family: 'Cormorant Garamond', serif; letter-spacing: 2px; font-size: 14px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="bg-container">
+        <img id="parallax-bg" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1920">
+        <div class="overlay"></div>
+    </div>
+
+
+    <nav class="navbar">
+        <div class="logo">PHOTOGRAPHY<span>.</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="photography.html">Photography</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+
+    <div class="page-header"><h1 class="big-title" id="anim-title">Photography</h1></div>
+
+
+    <div class="gallery-container">
+        <div class="row-top">
+            <div class="gallery-item"><img src="P8.jpeg"></div>
+            <div class="gallery-item" style="align-self: center;"><img src="p4.png"></div>
+            <div class="gallery-item" style="align-self: flex-end;"><img src="P10.jpeg"></div>
+        </div>
+        <div class="row-bottom">
+            <div class="gallery-item wide">
+                <img src="P9.jpg">
+                <div class="item-caption">Project 01 // Cinematic Emphasis</div>
+            </div>
+            <div class="gallery-item wide">
+                <img src="P9.jpeg">
+                <div class="item-caption">Project 02 // Abstract Structure</div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX/window.innerWidth-0.5)*40;
+            const y = (e.clientY/window.innerHeight-0.5)*40;
+            gsap.to("#parallax-bg", { x: x, y: y, duration: 2.5, ease: "power2.out" });
+        });
+        const text = document.getElementById('anim-title');
+        text.innerHTML = text.textContent.replace(/\S/g, "<span class='char'>$&</span>");
+        gsap.to(".char", { opacity: 1, y: 0, stagger: 0.1, duration: 2, ease: "expo.out" });
+        gsap.utils.toArray(".gallery-item").forEach((item) => {
+            gsap.to(item, { scrollTrigger: { trigger: item, start: "top 90%" }, opacity: 1, y: 0, duration: 1.8, ease: "power3.out" });
+        });
+    </script>
+</body>
+</html>

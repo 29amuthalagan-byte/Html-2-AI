@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA | Contact</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@200&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root { --accent: #8c7e6d; }
+        body { margin: 0; background: #000; color: white; overflow-x: hidden; font-family: 'Inter', sans-serif; }
+       
+        /* Sync Background & Parallax */
+        .bg-container { position: fixed; top: 0; left: 0; width: 115%; height: 115%; z-index: -1; }
+        .bg-container img { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; filter: brightness(0.4); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 20%, #000 100%); z-index: -1; }
+
+
+        /* Sync Navbar */
+        .navbar { position: fixed; top: 0; width: 100%; padding: 40px; display: flex; justify-content: space-between; z-index: 1000; box-sizing: border-box; }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; letter-spacing: 5px; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 30px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: white; text-decoration: none; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.6; transition: 0.4s; }
+        .nav-links a:hover { opacity: 1; color: var(--accent); }
+
+
+        /* Sync Header & Form */
+        .contact-section { padding: 180px 10% 100px; display: flex; flex-direction: column; align-items: center; }
+        h1.big-title { font-family: 'Cormorant Garamond', serif; font-size: 8.5vw; font-weight: 300; text-transform: uppercase; letter-spacing: 20px; margin: 0; margin-bottom: 50px; text-align: center; }
+        .char { display: inline-block; opacity: 0; transform: translateY(40px); }
+
+
+        .form-container { width: 100%; max-width: 600px; opacity: 0; transform: translateY(30px); }
+        form { display: flex; flex-direction: column; gap: 30px; }
+        .input-group { position: relative; border-bottom: 1px solid rgba(255,255,255,0.2); display: flex; flex-direction: column; }
+        input, textarea { background: transparent; border: none; padding: 15px 0; color: white; width: 100%; font-family: 'Inter', sans-serif; outline: none; font-size: 14px; }
+        label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); }
+       
+        .submit-btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: white;
+            padding: 20px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.5s;
+            margin-top: 20px;
+        }
+        .submit-btn:hover { background: var(--accent); color: #000; }
+    </style>
+</head>
+<body>
+    <div class="bg-container">
+        <img id="parallax-bg" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920">
+        <div class="overlay"></div>
+    </div>
+
+
+    <nav class="navbar">
+        <div class="logo">INQUIRY<span>.</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="photography.html">Photography</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+
+    <section class="contact-section">
+        <h1 class="big-title" id="anim-title">Contact</h1>
+       
+        <div class="form-container" id="form-reveal">
+            <form>
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Your Name">
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="Your Email">
+                </div>
+                <div class="input-group">
+                    <label>Message</label>
+                    <textarea rows="4" placeholder="Briefly describe your project"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Inquiry</button>
+            </form>
+        </div>
+    </section>
+
+
+    <script>
+        // Sync Parallax Effect
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 40;
+            const y = (e.clientY / window.innerHeight - 0.5) * 40;
+            gsap.to("#parallax-bg", { x: x, y: y, duration: 2.5, ease: "power2.out" });
+        });
+
+
+        // Sync Text & Reveal Animation
+        const text = document.getElementById('anim-title');
+        text.innerHTML = text.textContent.replace(/\S/g, "<span class='char'>$&</span>");
+       
+        const tl = gsap.timeline();
+        tl.to(".char", {
+            opacity: 1,
+            y: 0,
+            stagger: 0.1,
+            duration: 1.5,
+            ease: "expo.out"
+        })
+        .to("#form-reveal", {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power3.out"
+        }, "-=0.8");
+    </script>
+</body>
+</html>
